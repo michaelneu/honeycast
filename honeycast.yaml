@@ -1,0 +1,10 @@
+net:
+  discovery_address: 127.0.0.1
+  discovery_port: 0
+  http_port: 8008
+  cast_port: 8009
+
+device:
+  uuid: "1c2ceff9-681a-46ce-bc79-5d88dba9cf0c"
+  model_name: "Model Name"
+  device_name: "Device Name"

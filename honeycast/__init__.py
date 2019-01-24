@@ -3,33 +3,42 @@ from discovery import Discovery
 from multiprocessing import Process
 from uuid import uuid4 as random_uuid
 import logging
-
-addr = "127.0.0.1"
-port = 5000
-cast_status_port = 8008
+import yaml
 
 class HoneyCast():
     """HoneyCast main collection"""
 
-    def __init__(self, device_name):
-        self._logger = logging.getLogger("HoneyCast")
-        self._device_name = device_name
+    def __init__(self, config_filename):
+        with open(config_filename, "r") as config_filehandle:
+            self._config = yaml.load(config_filehandle.read())
 
-        self._httpd = Process(target=httpd.run, kwargs={ "port": cast_status_port })
-        self._discovery = Discovery(addr, port, {
-            "md": "model_name_placeholder",
-            "id": str(random_uuid()),
-            "fn": device_name,
+        self._logger = logging.getLogger("HoneyCast")
+
+        net_config = self._config.get("net", {})
+
+        self._httpd = Process(target=httpd.run, kwargs={
+            "port": net_config.get("http_port", 8008),
+            "host": "0.0.0.0",
+        })
+
+        discovery_address = net_config.get("discovery_address", "127.0.0.1")
+        discovery_port = net_config.get("discovery_port", 0)
+        device_config = self._config.get("device", {})
+
+        self._discovery = Discovery(discovery_address, discovery_port, {
+            "md": device_config.get("model_name", "Model Name"),
+            "id": device_config.get("uuid", random_uuid()),
+            "fn": device_config.get("device_name", "Device Name"),
         })
 
     def start_honeypot_service(self):
         self._httpd.start()
         self._discovery.start()
-        self._logger.info("Opening socket at %i" % port)
+        self._logger.info("Opening socket")
 
         # Start socket here
 
-        self._logger.info("Started a fake cast device with name %s", self._device_name)
+        self._logger.info("Started a fake cast device")
 
     def stop_honeypot_service(self):
         self._discovery.stop()
@@ -38,5 +47,5 @@ class HoneyCast():
 
 
 if __name__ == "__main__":
-    honeycast = HoneyCast("")
+    honeycast = HoneyCast("honeycast.yaml")
     honeycast.start_honeypot_service()
