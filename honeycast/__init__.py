@@ -12,8 +12,7 @@ class HoneyCast():
     """HoneyCast main collection"""
 
     def __init__(self, device_name):
-        self.logger = logging.getLogger("HoneyCast")
-
+        self._logger = logging.getLogger("HoneyCast")
         self._device_name = device_name
 
         self._httpd = Process(target=httpd.run, kwargs={ "port": cast_status_port })
@@ -26,11 +25,11 @@ class HoneyCast():
     def start_honeypot_service(self):
         self._httpd.start()
         self._discovery.start()
-        self.logger.info("Opening socket at %i" % port)
+        self._logger.info("Opening socket at %i" % port)
 
         # Start socket here
 
-        self.logger.info("Started a fake cast device with name %s", self._device_name)
+        self._logger.info("Started a fake cast device with name %s", self._device_name)
 
     def stop_honeypot_service(self):
         self._discovery.stop()
