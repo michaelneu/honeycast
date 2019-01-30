@@ -1,6 +1,6 @@
-from web import httpd
-from discovery import Discovery
-from message_channel import MessageChannel
+from .web import httpd
+from .discovery import Discovery
+from .message_channel import MessageChannel
 from multiprocessing import Process
 from uuid import uuid4 as random_uuid
 import logging
