@@ -1,7 +1,14 @@
 import socket
+import ssl
+import socketserver
 import logging
-from struct import unpack
+from http.server import BaseHTTPRequestHandler
+from struct import pack, unpack
 from multiprocessing import Process
+
+import json
+
+import cast_channel_pb2
 
 logger = logging.getLogger("honeycast-message-channel")
 
@@ -22,24 +29,33 @@ class MessageChannelSSLServer(socketserver.TCPServer):
         return ssl_sock, from_addr
 
 class MessageChannelHandler(BaseHTTPRequestHandler):
-    def handle(self):
+    def handle_one_request(self):
         sock = self.request
-        packet_size = unpack(">I", recvall(sock, 4))
 
-        data = recvall(sock, packet_size)
+        while True:
+            packet_size, = unpack(">I", recvall(sock, 4))
 
-        cast_message = cast_channel_pb2.CastMessage()
-        cast_message.ParseFromString(data)
+            data = recvall(sock, packet_size)
 
-        device_auth_message = cast_channel_pb2.DeviceAuthMessage()
-        device_auth_message.ParseFromString(cast_message.payload_binary)
+            cast_request = cast_channel_pb2.CastMessage()
+            cast_request.ParseFromString(data)
 
-        auth_response = cast_channel_pb2.AuthResponse()
+            print("Received: ", cast_request)
 
-        sock.sendall(pack(">I", auth_response.ByteSize()) +
-                auth_response.SerializeToString())
+            cast_response = cast_channel_pb2.CastMessage()
+            cast_response.protocol_version = cast_response.CASTV2_1_0
+            cast_response.source_id = cast_request.destination_id
+            cast_response.destination_id = cast_request.source_id
+            cast_response.payload_type = cast_channel_pb2.CastMessage.STRING
+            cast_response.namespace = "urn:x-cast:com.google.cast.tp.heartbeat"
+            cast_data = { 'type': "PING" }
+            cast_response.payload_utf8 = json.dumps(cast_data, ensure_ascii=False)
 
-        pdb.set_trace()
+            print("Sending: ", cast_response)
+
+            sock.sendall(pack(">I", cast_response.ByteSize()) +
+                    cast_response.SerializeToString())
+        
 
 class MessageChannel:
     def __init__(self, address="127.0.0.1", port=None):
