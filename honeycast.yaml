@@ -1,8 +1,15 @@
 net:
-  discovery_address: 127.0.0.1
-  discovery_port: 0
-  http_port: 8008
-  cast_port: 8009
+  discovery:
+    port: 0
+    address: "0.0.0.0"
+    zeroconf_name: "cast"
+  http:
+    port: 8008
+    host: "0.0.0.0"
+  cast:
+    port: 8009
+    key: "key.pem"
+    certificate: "certificate.pem"
 
 device:
   uuid: "1c2ceff9-681a-46ce-bc79-5d88dba9cf0c"
