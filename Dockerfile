@@ -19,5 +19,8 @@ RUN pip3 install -r requirements.txt
 EXPOSE 8008
 EXPOSE 8009
 
+RUN chown -R 1000:1000 .
 USER 1000
-CMD [ "python3", "app.py", "--no-zeroconf" ]
+RUN touch honeycast.log
+
+CMD [ "bash", "entrypoint.sh" ]
