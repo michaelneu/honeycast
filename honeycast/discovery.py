@@ -22,8 +22,11 @@ class Discovery:
 
         logger.info("starting discovery")
 
-        self._zeroconf = Zeroconf()
-        self._zeroconf.register_service(self._service)
+        try:
+            self._zeroconf = Zeroconf()
+            self._zeroconf.register_service(self._service)
+        except KeyboardInterrupt:
+            pass
 
     def stop(self):
         if self._zeroconf is None:

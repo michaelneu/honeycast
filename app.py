@@ -4,10 +4,12 @@ from honeycast.cast import CastServer, CastException
 from honeycast.certificate import Key, Certificate
 from honeycast.config import config
 from honeycast.discovery import Discovery
+from honeycast.log import logger
 from honeycast.web import httpd
 from multiprocessing import Process
 from optparse import OptionParser
 from uuid import uuid4
+import time
 
 if __name__ == "__main__":
     parser = OptionParser()
@@ -68,5 +70,16 @@ if __name__ == "__main__":
         processes.append(server_process)
 
     for process in processes:
+        process.daemon = True
         process.start()
 
+    while True:
+        try:
+            time.sleep(24 * 60 * 60)
+        except KeyboardInterrupt:
+            logger.info("shutting down")
+
+            for process in processes:
+                process.terminate()
+
+            exit(0)
