@@ -19,7 +19,7 @@ def pack_uint(value):
 
 class CastException(Exception):
     def __init__(self, message):
-        super().__init__(message)
+        self.message = message
 
 class CastServer:
     def __init__(self, key_path, cert_path, port=8009, tcp_backlog=100):
@@ -44,7 +44,7 @@ class CastServer:
                 try:
                     client.receive_and_reply_once()
                 except CastException as ex:
-                    logger.warning("exception in cast client: %s", ex.msg)
+                    logger.warning("exception in cast client: %s", ex.message)
                     break
 
 class CastClient:
