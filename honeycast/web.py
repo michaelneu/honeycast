@@ -2,7 +2,7 @@ from .log import logger
 from flask import Flask, jsonify
 import logging
 
-httpd = Flask("honeycast")
+httpd = Flask(__name__)
 
 werkzeug_logger = logging.getLogger("werkzeug")
 werkzeug_logger.disabled = True
