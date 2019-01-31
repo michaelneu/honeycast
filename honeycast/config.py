@@ -21,7 +21,6 @@ class Config:
         parts = path.split(".")
 
         for part in parts:
-            print("searching", part)
             config = config.get(part, None)
 
             if config is None:
