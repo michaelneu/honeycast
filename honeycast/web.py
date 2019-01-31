@@ -1,8 +1,7 @@
+from .log import logger
 from flask import Flask, jsonify
-import logging
 
 httpd = Flask("honeycast")
-logger = logging.getLogger("honeycast-httpd")
 
 @httpd.after_request
 def set_custom_headers(response):
