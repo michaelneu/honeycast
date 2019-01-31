@@ -15,6 +15,7 @@ device:
   uuid: "1c2ceff9-681a-46ce-bc79-5d88dba9cf0c"
   model_name: "Model Name"
   device_name: "Device Name"
+  manufacturer: "Cast"
   sound:
     volume:
       level: 0.1

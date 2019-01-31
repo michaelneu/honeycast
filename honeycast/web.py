@@ -1,12 +1,12 @@
-from .log import logger
+from .config import config
+from .log import logger, apply_logger_config
 from flask import Flask, jsonify
 import logging
 
 httpd = Flask(__name__)
 
 werkzeug_logger = logging.getLogger("werkzeug")
-werkzeug_logger.disabled = True
-httpd.logger = logger
+apply_logger_config(werkzeug_logger)
 
 @httpd.after_request
 def set_custom_headers(response):
@@ -20,10 +20,10 @@ def reboot():
 @httpd.route("/setup/eureka_info", methods=["GET"])
 def eureka_info():
     return jsonify({
-        "name": "ThisIsName",
+        "name": config.get("device.device_name", "Device Name"),
         "detail": {
-            "model_name": "ThisIsModelName",
-            "manufacturer": "JJ"
+            "model_name": config.get("device.model_name", "Model Name"),
+            "manufacturer": config.get("device.manufacturer", "Cast")
         }
     })
 
