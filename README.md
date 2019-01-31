@@ -10,9 +10,20 @@ This project aims to work with [pychromecast](https://github.com/balloob/pychrom
 
 ## Usage
 
+The [Makefile](Makefile) provides a few helpful scripts, such as setting up a virtual environment for development. Once everything's setup, you can use a few command line flags to disable certain services from honeycast:
+
 ```bash
-# todo
+(venv) $ ./app.py --help
+Usage: app.py [options]
+
+Options:
+  -h, --help     show this help message and exit
+  --no-web       Don't start eureka webserver
+  --no-zeroconf  Don't advertise using zeroconf
+  --no-cast      Don't run a cast server
 ```
+
+Honeycast ships with a Dockerfile, which generates very plain, self-signed X509 certificates during build. You can specify your own certificates in the [config](honeycast.yaml).
 
 ## License
 
