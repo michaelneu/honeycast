@@ -1,11 +1,12 @@
 import logging
+import sys
 
 def apply_logger_config(logger):
     logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(fmt="%(asctime)s [%(levelname)s]\t%(message)s")
     handlers = [
-        logging.StreamHandler(),
+        logging.StreamHandler(stream=sys.stdout),
     ]
 
     logger.handlers.clear()
