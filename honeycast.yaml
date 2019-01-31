@@ -8,3 +8,17 @@ device:
   uuid: "1c2ceff9-681a-46ce-bc79-5d88dba9cf0c"
   model_name: "Model Name"
   device_name: "Device Name"
+  sound:
+    volume:
+      level: 0.1
+      muted: false
+      step_interval: 0.2
+    equalizer:
+      high_shelf:
+        frequency: 4500.0
+        gain_db: -2.0
+        quality: 0.707
+      low_shelf:
+        frequency: 150.0
+        gain_db: 3.0
+        quality: 0.707
