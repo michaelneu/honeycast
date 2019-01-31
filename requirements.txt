@@ -1,7 +1,10 @@
+asn1crypto==0.24.0
 casttube==0.2.0
 certifi==2018.11.29
+cffi==1.11.5
 chardet==3.0.4
 Click==7.0
+cryptography==2.5
 Flask==1.0.2
 idna==2.8
 ifaddr==0.1.6
@@ -10,6 +13,7 @@ Jinja2==2.10
 MarkupSafe==1.1.0
 protobuf==3.6.1
 PyChromecast==2.4.0
+pycparser==2.19
 PyYAML==4.2b1
 requests==2.21.0
 six==1.12.0

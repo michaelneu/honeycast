@@ -8,8 +8,14 @@ net:
     host: "0.0.0.0"
   cast:
     port: 8009
-    key: "key.pem"
-    certificate: "certificate.pem"
+    key:
+      filename: "key.pem"
+    certificate:
+      filename: "certificate.pem"
+      subject: "Cast Certificate"
+      dns_name: "Cast"
+      issuer: "Cast Issuer"
+      valid_days: 365
 
 device:
   uuid: "1c2ceff9-681a-46ce-bc79-5d88dba9cf0c"
