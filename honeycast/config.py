@@ -1,10 +1,6 @@
 import os
 import yaml
 
-class ConfigException(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-
 class Config:
     @staticmethod
     def from_file(filename):
@@ -24,7 +20,7 @@ class Config:
             config = config.get(part, None)
 
             if config is None:
-                raise ConfigException("invalid path: can't find '%s'" % path)
+                return default
 
         if isinstance(config, dict):
             return Config(config)
