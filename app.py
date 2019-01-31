@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from honeycast.cast import CastServer, CastException
 from honeycast.config import config
 from honeycast.discovery import Discovery
