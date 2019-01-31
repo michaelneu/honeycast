@@ -37,6 +37,16 @@ class CastServer:
         logger.info("client connected at %s", str(address))
         return CastClient(client_socket)
 
+    def run(self):
+        while True:
+            client = self.get_client()
+            while True:
+                try:
+                    client.receive_and_reply_once()
+                except CastException as ex:
+                    logger.warning("exception in cast client: %s", ex.msg)
+                    break
+
 class CastClient:
     def __init__(self, socket):
         self._socket = socket
