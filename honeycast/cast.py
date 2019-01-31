@@ -39,13 +39,16 @@ class CastServer:
 
     def run(self):
         while True:
-            client = self.get_client()
-            while True:
-                try:
-                    client.receive_and_reply_once()
-                except CastException as ex:
-                    logger.warning("exception in cast client: %s", ex.message)
-                    break
+            try:
+                client = self.get_client()
+                while True:
+                    try:
+                        client.receive_and_reply_once()
+                    except CastException as ex:
+                        logger.warning("exception in cast client: %s", ex.message)
+                        break
+            except KeyboardInterrupt:
+                break
 
 class CastClient:
     def __init__(self, socket):
