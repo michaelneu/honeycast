@@ -11,8 +11,8 @@ FROM python:3-slim
 ADD . /app
 WORKDIR /app
 
-COPY --from=certificate_generator certificate.pem /app
-COPY --from=certificate_generator key.pem /app
+COPY --from=certificate_generator --chown=1000:1000 certificate.pem /app
+COPY --from=certificate_generator --chown=1000:1000 key.pem /app
 
 RUN pip3 install -r requirements.txt
 
