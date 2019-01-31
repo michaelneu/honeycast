@@ -22,4 +22,5 @@ run_image:
 		-it \
 		-p 8008:8008 \
 		-p 8009:8009 \
+		-v `pwd`/honeycast.log:/app/honeycast.log \
 		honeycast_dev
