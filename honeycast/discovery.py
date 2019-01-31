@@ -1,19 +1,22 @@
-import socket
-import logging
+from .config import config
+from .log import logger
 from zeroconf import ServiceInfo, Zeroconf
-
-logger = logging.getLogger("honeycast-discovery")
+import socket
 
 class Discovery:
-    def __init__(self, address="127.0.0.1", port=None, description=None):
-        service_type = "_googlecast._tcp.local."
-        service_name = "HoneyCast Service." + service_type
+    def __init__(self, zeroconf_name="", address="127.0.0.1", port=None, model_name="", uuid="", device_name=""):
+        service_type = "._googlecast._tcp.local."
+        service_name = zeroconf_name + service_type
         address_bytes = socket.inet_aton(address)
 
         self._zeroconf = None
-        self._service = ServiceInfo(service_type, service_name, address_bytes, port, properties=description)
+        self._service = ServiceInfo(service_type, service_name, address_bytes, port, properties={
+            "md": model_name,
+            "id": uuid,
+            "fn": device_name,
+        })
 
-    def start(self):
+    def run(self):
         if self._zeroconf is not None:
             return
 
