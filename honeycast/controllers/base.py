@@ -1,5 +1,4 @@
 from . import Message
-from uuid import uuid4
 
 class BaseController:
     @classmethod
@@ -12,7 +11,6 @@ class BaseController:
 
     def __init__(self, namespace):
         self._namespace = namespace
-        self._session_id = str(uuid4())
 
     def matches(self, namespace):
         return self._namespace == namespace
