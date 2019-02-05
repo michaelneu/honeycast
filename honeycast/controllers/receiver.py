@@ -1,12 +1,14 @@
 from ..config import config
+from ..log import logger
 from .base import BaseController
-from pychromecast.socket_client import NS_RECEIVER, TYPE_GET_STATUS, TYPE_RECEIVER_STATUS
+from pychromecast.socket_client import NS_RECEIVER, TYPE_GET_STATUS, TYPE_RECEIVER_STATUS, TYPE_LAUNCH
 import uuid
 
 class ReceiverController(BaseController):
     def __init__(self):
         super().__init__(NS_RECEIVER)
         self._session_id = str(uuid.uuid4())
+        self._app_id = None
 
     def get_reply(self, message):
         message_type = message.data.get("type", "")
@@ -18,7 +20,7 @@ class ReceiverController(BaseController):
                 "status": {
                     "applications": [
                         {
-                            "appId": "CC1AD845",
+                            "appId": self._app_id or "CC1AD845",
                             "displayName": "Default Media Receiver",
                             "iconUrl": "",
                             "isIdleScreen": False,
@@ -60,6 +62,34 @@ class ReceiverController(BaseController):
                         "stepInterval": config.get("device.sound.volume.step_interval", 0.2)
                     }
                 },
+            })
+        elif message_type == TYPE_LAUNCH:
+            app_id = message.data.get("appId", None)
+            logger.info("launching app %s", app_id)
+            self._app_id = app_id
+
+            return self.create_default_reply(message, {
+                "requestId": message.data.get("requestId", 0),
+                "type": TYPE_RECEIVER_STATUS,
+                "status": {
+                    "applications": [
+                        {
+                            "appId": self._app_id or "CC1AD845",
+                            "displayName": "Default Media Receiver",
+                            "iconUrl": "",
+                            "isIdleScreen": False,
+                            "launchedFromCloud": False,
+                            "namespaces": [
+                                {
+                                    "name": "urn:x-cast:com.spotify.chromecast.secure.v1"
+                                },
+                            ],
+                            "sessionId": self._session_id,
+                            "statusText": "Default Media Receiver",
+                            "transportId": self._session_id
+                        }
+                    ],
+                }
             })
 
         return super().get_reply(message)

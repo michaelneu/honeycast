@@ -3,6 +3,7 @@ from .controllers.connection import ConnectionController
 from .controllers.heartbeat import HeartbeatController
 from .controllers.media import MediaController
 from .controllers.receiver import ReceiverController
+from .controllers.spotify import SpotifyController
 from .log import logger
 from pychromecast.cast_channel_pb2 import CastMessage
 import json
@@ -58,6 +59,7 @@ class CastClient:
             ConnectionController(),
             ReceiverController(),
             MediaController(),
+            SpotifyController(),
         ]
 
     def close(self):
