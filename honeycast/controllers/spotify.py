@@ -1,10 +1,33 @@
 from ..log import logger
 from .base import BaseController
-from pychromecast.controllers.spotify import APP_NAMESPACE
+from pychromecast.controllers.spotify import APP_NAMESPACE, APP_SPOTIFY
 from spotipy import Spotify
-import pdb
 
 class SpotifyController(BaseController):
+    @classmethod
+    def app_information(cls, session_id):
+        return [
+            {
+                "appId": cls.app_id(),
+                "displayName": "Spotify",
+                "iconUrl": "",
+                "isIdleScreen": False,
+                "launchedFromCloud": False,
+                "namespaces": [
+                    {
+                        "name": "urn:x-cast:com.spotify.chromecast.secure.v1"
+                    },
+                ],
+                "sessionId": session_id,
+                "statusText": "Spotify",
+                "transportId": session_id
+            }
+        ]
+
+    @classmethod
+    def app_id(cls):
+        return APP_SPOTIFY
+
     def __init__(self):
         super().__init__(APP_NAMESPACE)
         self._spotify = None
