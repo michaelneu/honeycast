@@ -5,7 +5,7 @@ venv:
 	source venv/bin/activate && pip3 install -r requirements.txt
 
 run:
-	source venv/bin/activate && python3 main.py
+	source venv/bin/activate && python3 app.py
 
 certificates:
 	echo "\n\n\n\n\n\n" | openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
