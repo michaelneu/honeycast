@@ -1,4 +1,6 @@
 # HoneyCast
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmichaelneu%2Fhoneycast.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmichaelneu%2Fhoneycast?ref=badge_shield)
+
 
 A honeypot to collect media mistakenly or purposely streamed to Chromecast devices on the internet.
 
@@ -28,6 +30,9 @@ Honeycast ships with a Dockerfile, which generates very plain, self-signed X509 
 ## License
 
 Honeycast is released under the [MIT license](LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmichaelneu%2Fhoneycast.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmichaelneu%2Fhoneycast?ref=badge_large)
 
 ## References
 [1] - The Original Website describing the Hack  
