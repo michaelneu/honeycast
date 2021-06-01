@@ -19,6 +19,6 @@ requests==2.21.0
 six==1.12.0
 spotify-token==0.1.0
 spotipy==2.4.4
-urllib3==1.24.2
+urllib3==1.26.5
 Werkzeug==0.15.3
 zeroconf==0.21.3
